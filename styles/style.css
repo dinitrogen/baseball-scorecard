@@ -4,15 +4,21 @@ h1 {
     font-size: 10vw;
 }
 
+
+#body {
+    height: 100%;
+}
+
 .container {
     display: flex;
 }
 
 .counterButton {
     flex: auto;
-    height: 100px;
+    height: 200px;
     margin: 10px;
-    font-size: 10vw;
+    font-size: 8vw;
     color: black;
+    border-radius: 15px;
 
 }
