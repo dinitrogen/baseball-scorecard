@@ -1,8 +1,10 @@
 h1 {
     color: blue;
+    text-align: center;
+    font-size: 10vw;
 }
 
-#container {
+.container {
     display: flex;
 }
 
@@ -10,4 +12,7 @@ h1 {
     flex: auto;
     height: 100px;
     margin: 10px;
+    font-size: 10vw;
+    color: black;
+
 }
