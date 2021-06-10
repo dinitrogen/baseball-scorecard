@@ -1,0 +1,47 @@
+h1 {
+    color: dodgerblue;
+}
+
+.container {
+    display: flex;
+    justify-content: left;
+    width: 500px;
+    background-color: dodgerblue;
+}
+
+.container > div {
+    background-color: white;
+    color: black;
+    width: 70px;
+    margin: 2px;
+    text-align: center;
+    line-height: 70px;
+    font-size: 30px;
+    border: 2px solid black;
+    user-select: none;
+}
+
+.ballBox:hover {
+    background-color: orange;
+}
+
+.strikeBox:hover {
+    background-color: red;
+}
+
+#baseDiamond {
+    background-color: dodgerblue;
+    width: 500px;
+    height:500px;
+}
+
+#diamond {
+    
+    margin-left: 100px;
+    margin-right: 100px;
+    background: #fff;
+    height: 200px;
+    text-align: center;
+    transform:rotate(45deg);
+      width:200px;
+  }
