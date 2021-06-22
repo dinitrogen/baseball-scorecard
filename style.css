@@ -1,0 +1,35 @@
+#navBar {
+    text-align: center;
+    margin: 10px;
+}
+
+.navButton {
+    margin: 5px;
+}
+
+
+h1 {
+    color: black;
+    text-align: center;
+    font-size: 3em;
+    font-family: Arial, Helvetica, sans-serif
+}
+
+
+#body {
+    height: 100%;
+}
+
+.container {
+    display: flex;
+}
+
+.counterButton {
+    flex: auto;
+    height: 200px;
+    margin: 10px;
+    font-size: 8vw;
+    color: black;
+    border-radius: 15px;
+
+}
