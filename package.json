@@ -1,0 +1,24 @@
+{
+  "name": "baseball-scorekeeper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dinitrogen/baseball-scorekeeper.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dinitrogen/baseball-scorekeeper/issues"
+  },
+  "homepage": "https://github.com/dinitrogen/baseball-scorekeeper#readme",
+  "devDependencies": {
+    "webpack": "^5.40.0",
+    "webpack-cli": "^4.7.2"
+  }
+}

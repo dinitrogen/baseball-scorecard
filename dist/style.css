@@ -1,7 +1,18 @@
-h1 {
-    color: blue;
+#navBar {
     text-align: center;
-    font-size: 10vw;
+    margin: 10px;
+}
+
+.navButton {
+    margin: 5px;
+}
+
+
+h1 {
+    color: black;
+    text-align: center;
+    font-size: 3em;
+    font-family: Arial, Helvetica, sans-serif
 }
 
 
