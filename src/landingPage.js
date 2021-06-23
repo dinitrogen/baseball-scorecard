@@ -25,11 +25,20 @@
         return navBar;
     }
 
+    function createContentDiv(id) {
+        const tabContent = document.createElement('div');
+        tabContent.setAttribute('id', id);
+        
+        return tabContent;
+    }
+
     function loadNavBar() {
         const content = document.getElementById('content');
 
         const nav = createNavBar('navBar');
+        const tabContent = createContentDiv('tabContent');
         content.appendChild(nav);
+        content.appendChild(tabContent);
     }
 
 
