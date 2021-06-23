@@ -179,9 +179,16 @@ function advanceInning() {
 
 // Page Loader
 function loadAtBatTracker() {
+
+    let myRoster = JSON.parse(localStorage.getItem("mySavedRoster"));
+    console.table(myRoster);
+    let batterIndex = 1;
+    let batterName = myRoster[batterIndex].firstName;
+    let batterJersey = myRoster[batterIndex].jerseyNum;
+    
     // create divs
     const atBatHeader = createHeader('atBatHeader', 'At Bat Tracker');
-    const batterInfoDiv = createBatterInfoDiv('Ellie', '1'); // Hard coded name/number for now
+    const batterInfoDiv = createBatterInfoDiv(batterName, batterJersey); // Hard coded name/number for now
     const inningDiv = createCounterDiv('inningDiv');
     const scoreDiv = createCounterDiv('scoreDiv');
     const BSODiv = createCounterDiv('BSODiv');
@@ -214,6 +221,8 @@ function loadAtBatTracker() {
     tabContent.appendChild(inningDiv);
     tabContent.appendChild(scoreDiv);
     tabContent.appendChild(BSODiv);
+
+
 }
 
 

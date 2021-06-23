@@ -1,6 +1,4 @@
-let teamArray = [];
-
-// Assign new player form
+let myRoster = [];
 
 
 //at Bat prototype
@@ -62,7 +60,7 @@ function createNewPlayerFormDiv() {
 function createAddPlayerButton() {
     const addPlayerButton = document.createElement('button');
     addPlayerButton.setAttribute('id','addPlayerButton');
-    addPlayerButton.addEventListener('click', generateNewPlayerForm);
+    addPlayerButton.addEventListener('click', createNewPlayerForm);
     const btnText = document.createElement('span');
     btnText.textContent = 'Add Player';
     addPlayerButton.appendChild(btnText);
@@ -76,7 +74,20 @@ function createPlayerListDiv() {
 }
 
 
-// New player form elements
+
+
+
+// At bat buttons
+const singleButton = document.createElement('button');
+singleButton.setAttribute('id','singleButton');
+singleButton.addEventListener('click', function() {
+    myRoster[0].hitSingle();
+    console.log(myRoster[0].numSingles);
+    console.table(myRoster);
+});
+
+
+function createNewPlayerForm() {
 
     const newPlayerForm = document.createElement('form');
 
@@ -100,24 +111,12 @@ function createPlayerListDiv() {
     submitButton.setAttribute('value', 'Submit');
     submitButton.addEventListener('click', function() {
         addPlayer();
-        displayPlayers();
+        displayRoster();
         while (newPlayerFormDiv.firstChild) {
             newPlayerFormDiv.removeChild(newPlayerFormDiv.lastChild);
         }
     });
 
-
-// At bat buttons
-const singleButton = document.createElement('button');
-singleButton.setAttribute('id','singleButton');
-singleButton.addEventListener('click', function() {
-    teamArray[0].hitSingle();
-    console.log(teamArray[0].numSingles);
-    console.table(teamArray);
-});
-
-
-function generateNewPlayerForm() {
     newPlayerForm.reset();
     newPlayerFormDiv.appendChild(newPlayerForm);
     newPlayerForm.appendChild(newFirstNameField);
@@ -131,8 +130,9 @@ function addPlayer() {
     let newLastName = document.getElementById('newLastName').value;
     let newJerseyNum = document.getElementById('newJerseyNum').value;
     let newPlayer = createPlayer(newFirstName, newLastName, newJerseyNum);
-    teamArray.push(newPlayer);
-    console.table(teamArray);
+    myRoster.push(newPlayer);
+    saveRoster();
+    console.table(myRoster);
     
     // playerStats.textContent = player1.getFullName();
     // console.log(player1.numAtBats);
@@ -143,15 +143,15 @@ function addPlayer() {
 }
 
 
-function displayPlayers() {
+function displayRoster() {
     while (playerListDiv.firstChild) {
         playerListDiv.removeChild(playerListDiv.lastChild);
     }
 
-    for (let player of teamArray) {
+    for (let player of myRoster) {
         const playerCardDiv = document.createElement('div');
         playerCardDiv.setAttribute('class', 'playerCardDiv');
-        playerCardDiv.setAttribute('id', `player${teamArray.indexOf(player)}`);
+        playerCardDiv.setAttribute('id', `player${myRoster.indexOf(player)}`);
         playerListDiv.appendChild(playerCardDiv);
 
         const playerNameDiv = document.createElement('div');
@@ -171,18 +171,19 @@ function displayPlayers() {
         delButton.textContent = 'remove player';
         delButton.onclick = function() {
             playerListDiv.removeChild(playerCardDiv);
-            teamArray.splice(teamArray.indexOf(player), 1);
-            console.table(teamArray); //remove later
+            myRoster.splice(myRoster.indexOf(player), 1);
+            saveRoster();
+            console.table(myRoster); //remove later
         }
     }
 }
 
 
 function loadRosterPage() {
+
     const newPlayerFormDiv = createNewPlayerFormDiv();
     const addPlayerButton = createAddPlayerButton();
     const playerListDiv = createPlayerListDiv();
-
     
     const tabContent = document.getElementById('tabContent');
     tabContent.textContent = '';
@@ -190,10 +191,26 @@ function loadRosterPage() {
     tabContent.appendChild(addPlayerButton);
     tabContent.appendChild(newPlayerFormDiv);
     tabContent.appendChild(playerListDiv);
-    generateNewPlayerForm();
-
+    
+    // Check for saved roster
+    if (localStorage.getItem('mySavedRoster')) {
+        alert("Found saved roster.");
+        loadRoster();
+        displayRoster();  
+    } 
 
 }
+
+// local storage functions
+function loadRoster() {
+    myRoster = JSON.parse(localStorage.getItem("mySavedRoster"));
+}
+
+function saveRoster() {
+    localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
+}
+
+
 
 export { loadRosterPage }
 
