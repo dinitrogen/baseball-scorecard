@@ -10,14 +10,6 @@ let gameScore = {
     numOuts: 0
 }
 
-// Initialize variables
-//let inningHalf = 'Top';
-// //let numInning = 1;
-// let awayRuns = 0;
-// let homeRuns = 0;
-// let numBalls = 0;
-// let numStrikes = 0;
-// let numOuts = 0;
 
 function resetGameScore() {
     gameScore.inningHalf = 'Top';
@@ -54,15 +46,16 @@ function createHeader(id, text) {
     return header;
 }
 
-function createBatterInfoDiv(firstName, jerseyNum) {
+function createBatterInfoDiv() {
     const div = document.createElement('div');
     div.setAttribute('id', 'batterInfoDiv');
     const para = document.createElement('p');
     para.setAttribute('id', 'batterInfo');
-    para.textContent = `Up to bat: ${firstName}, #${jerseyNum}`;
+    para.textContent = 'Up to bat:';
     div.appendChild(para);
     return div;
 }
+
 
 function createInningCounter() {
     const inningCounter = createCounterButton('inningCounter', `${gameScore.inningHalf} ${gameScore.numInning}`);
@@ -193,6 +186,12 @@ function advanceInning() {
     saveGame();
 }
 
+function updateBatterDiv(name, jerseyNum) {
+    const para = document.getElementById('batterInfo');
+    para.textContent = `Up to bat: ${name}, #${jerseyNum}`;
+}
+
+
 
 // Page Loader
 function loadAtBatTracker() {
@@ -205,12 +204,30 @@ function loadAtBatTracker() {
     let myRoster = JSON.parse(localStorage.getItem("mySavedRoster"));
     console.table(myRoster);
     let batterIndex = 0;
-    let batterName = myRoster[batterIndex].firstName;
-    let batterJersey = myRoster[batterIndex].jerseyNum;
+
+    // Batter change button
+    const nextBatterButton = document.createElement('button');
+    nextBatterButton.setAttribute('id', 'nextBatterButton');
+    nextBatterButton.textContent = 'Next batter';
+    nextBatterButton.addEventListener('click', function() {
+        if (myRoster.length === 0) {
+            return;
+        }
+        else if (batterIndex === myRoster.length - 1) {
+            batterIndex = 0;
+        } else {
+            batterIndex++;
+        }
+        let name = myRoster[batterIndex].firstName;
+        let jerseyNum = myRoster[batterIndex].jerseyNum;
+        updateBatterDiv(name, jerseyNum);
+    });
+
     
     // create divs
     const atBatHeader = createHeader('atBatHeader', 'At Bat Tracker');
-    const batterInfoDiv = createBatterInfoDiv(batterName, batterJersey); // Hard coded name/number for now
+    const batterInfoDiv = createBatterInfoDiv();
+    batterInfoDiv.appendChild(nextBatterButton);
     const inningDiv = createCounterDiv('inningDiv');
     const scoreDiv = createCounterDiv('scoreDiv');
     const BSODiv = createCounterDiv('BSODiv');
@@ -355,8 +372,10 @@ function loadAtBatTracker() {
             return;
         }
     });
-    tabContent.appendChild(newGameButton);
 
+    const newGameDiv = document.createElement('div');
+    newGameDiv.appendChild(newGameButton);
+    tabContent.appendChild(newGameDiv);
 
 }
 
