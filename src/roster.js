@@ -1,6 +1,27 @@
 let myRoster = [];
 
 
+// Stats calculations
+
+function calculateAB(player) {
+    let atBats = player.numPA - player.numWalks - player.numSacs - player.numHBPs;
+    return atBats;
+}
+
+function calculateAVG(player) {
+    let hits = (player.numSingles + player.numDoubles + player.numTriples + player.numHRs);
+    let avg = Math.trunc(hits / player.numAtBats * 1000) / 1000;
+    return avg;
+}
+
+function calculateOBP(player) {
+    let hits = (player.numSingles + player.numDoubles + player.numTriples + player.numHRs);
+    let obEvents = hits + player.numWalks + player.numHBPs;
+    let obp = Math.trunc(obEvents / player.numPA * 1000) / 1000;
+    return obp;
+}
+
+
 //at Bat prototype
 const atBatProto = {
     getFullName() {
@@ -36,24 +57,8 @@ const atBatProto = {
     sacrifice() {
         this.numSacs++;
     },
-    calculateAB() {
-        let atBats = this.numPA - this.numWalks - this.numSacs - this.numHBPs;
-        return atBats;
-    },
-    calculateAVG() {
-        let hits = (this.numSingles + this.numDoubles + this.numTriples + this.numHRs);
-        let avg = Math.trunc(hits / this.numAtBats * 1000) / 1000;
-        return avg;
-    },
-    calculateOBP() {
-        let hits = (this.numSingles + this.numDoubles + this.numTriples + this.numHRs);
-        let obEvents = hits + this.numWalks + this.numHBPs;
-        let obp = Math.trunc(obEvents / this.numPA * 1000) / 1000;
-        return obp;
-    },
-
-
 }
+
 
 // Player factory function
 const createPlayer = function(firstName, lastName, jerseyNum) {
@@ -61,24 +66,23 @@ const createPlayer = function(firstName, lastName, jerseyNum) {
     player.firstName = firstName;
     player.lastName = lastName;
     player.jerseyNum = jerseyNum;
-    player.numPA = 10
+    player.numPA = 0;
     player.numRuns = 0;
-    player.numSingles = 1;
-    player.numDoubles = 2;
-    player.numTriples = 3;
+    player.numSingles = 0;
+    player.numDoubles = 0;
+    player.numTriples = 0;
     player.numHRs = 0;
     player.numRBIs = 0;
     player.numSacs = 0;
-    player.numStrikeouts = 3;
-    player.numWalks = 2;
+    player.numStrikeouts = 0;
+    player.numWalks = 0;
     player.numHBPs = 0;
-    player.numAtBats = player.calculateAB();
-    player.avg = player.calculateAVG();
-    player.obp = player.calculateOBP();
+    player.numAtBats = calculateAB(player);
+    player.avg = calculateAVG(player);
+    player.obp = calculateOBP(player);
 
     return player;
 }
-
 
 // Assign DOM elements
 function createNewPlayerFormDiv() {
@@ -97,17 +101,7 @@ function createAddPlayerButton() {
     return addPlayerButton;
 }
 
-
-// At bat buttons
-const singleButton = document.createElement('button');
-singleButton.setAttribute('id','singleButton');
-singleButton.addEventListener('click', function() {
-    myRoster[0].hitSingle();
-    console.log(myRoster[0].numSingles);
-    console.table(myRoster);
-});
-
-
+// Create a new player form
 function createNewPlayerForm() {
 
     const newPlayerForm = document.createElement('form');
@@ -203,10 +197,6 @@ function createRosterTable() {
     homerunsHeader.textContent = 'HR';
     headerRow.appendChild(homerunsHeader);
 
-    const rbiHeader = document.createElement('th');
-    rbiHeader.textContent = 'RBI';
-    headerRow.appendChild(rbiHeader);
-
     const walksHeader = document.createElement('th');
     walksHeader.textContent = 'BB';
     headerRow.appendChild(walksHeader);
@@ -218,6 +208,10 @@ function createRosterTable() {
     const sacsHeader = document.createElement('th');
     sacsHeader.textContent = 'SF';
     headerRow.appendChild(sacsHeader);
+
+    const rbiHeader = document.createElement('th');
+    rbiHeader.textContent = 'RBI';
+    headerRow.appendChild(rbiHeader);
 
     const avgHeader = document.createElement('th');
     avgHeader.textContent = 'AVG';
@@ -264,6 +258,7 @@ function displayRosterTable() {
         playerRow.appendChild(paCell);
 
         const atBatsCell = document.createElement('td');
+        player.numAtBats = calculateAB(player);
         atBatsCell.textContent = `${player.numAtBats}`;
         playerRow.appendChild(atBatsCell);
 
@@ -286,10 +281,6 @@ function displayRosterTable() {
         const homerunsCell = document.createElement('td');
         homerunsCell.textContent = `${player.numHRs}`;
         playerRow.appendChild(homerunsCell);
-        
-        const rbiCell = document.createElement('td');
-        rbiCell.textContent = `${player.numRBIs}`;
-        playerRow.appendChild(rbiCell);
 
         const walksCell = document.createElement('td');
         walksCell.textContent = `${player.numWalks}`;
@@ -302,12 +293,18 @@ function displayRosterTable() {
         const sacsCell = document.createElement('td');
         sacsCell.textContent = `${player.numSacs}`;
         playerRow.appendChild(sacsCell);
+
+        const rbiCell = document.createElement('td');
+        rbiCell.textContent = `${player.numRBIs}`;
+        playerRow.appendChild(rbiCell);
         
         const avgCell = document.createElement('td');
+        player.avg = calculateAVG(player);
         avgCell.textContent = `${player.avg}`;
         playerRow.appendChild(avgCell);
 
         const obpCell = document.createElement('td');
+        player.obp = calculateOBP(player);
         obpCell.textContent = `${player.obp}`;
         playerRow.appendChild(obpCell);
         // other stats

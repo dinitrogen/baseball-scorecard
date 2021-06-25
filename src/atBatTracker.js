@@ -204,7 +204,7 @@ function loadAtBatTracker() {
     
     let myRoster = JSON.parse(localStorage.getItem("mySavedRoster"));
     console.table(myRoster);
-    let batterIndex = 1;
+    let batterIndex = 0;
     let batterName = myRoster[batterIndex].firstName;
     let batterJersey = myRoster[batterIndex].jerseyNum;
     
@@ -248,14 +248,101 @@ function loadAtBatTracker() {
     singleButton.setAttribute('id','singleButton');
     singleButton.textContent = '1B';
     singleButton.addEventListener('click', function() {
-        myRoster[0].numSingles++;
-        console.log(myRoster[0].numSingles);
-        //saveRoster();
+        myRoster[batterIndex].numPA++;
+        myRoster[batterIndex].numSingles++;
+        console.log(myRoster[batterIndex].numSingles);
         localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
         });
     tabContent.appendChild(singleButton);
 
+    const doubleButton = document.createElement('button');
+    doubleButton.setAttribute('id','doubleButton');
+    doubleButton.textContent = '2B';
+    doubleButton.addEventListener('click', function() {
+        myRoster[batterIndex].numPA++;
+        myRoster[batterIndex].numDoubles++;
+        console.log(myRoster[batterIndex].numDoubles);
+        localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
+        });
+    tabContent.appendChild(doubleButton);
+
+    const tripleButton = document.createElement('button');
+    tripleButton.setAttribute('id','tripleButton');
+    tripleButton.textContent = '3B';
+    tripleButton.addEventListener('click', function() {
+        myRoster[batterIndex].numPA++;
+        myRoster[batterIndex].numTriples++;
+        console.log(myRoster[batterIndex].numTriples);
+        localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
+        });
+    tabContent.appendChild(tripleButton);
+
+    const homerunButton = document.createElement('button');
+    homerunButton.setAttribute('id','homerunButton');
+    homerunButton.textContent = 'HR';
+    homerunButton.addEventListener('click', function() {
+        myRoster[batterIndex].numPA++;
+        myRoster[batterIndex].numHRs++;
+        console.log(myRoster[batterIndex].numHRs);
+        localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
+        });
+    tabContent.appendChild(homerunButton);
     
+    const walkButton = document.createElement('button');
+    walkButton.setAttribute('id','walkButton');
+    walkButton.textContent = 'BB';
+    walkButton.addEventListener('click', function() {
+        myRoster[batterIndex].numPA++;
+        myRoster[batterIndex].numWalks++;
+        console.log(myRoster[batterIndex].numWalks);
+        localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
+        });
+    tabContent.appendChild(walkButton);
+
+    const strikeoutButton = document.createElement('button');
+    strikeoutButton.setAttribute('id','strikeoutButton');
+    strikeoutButton.textContent = 'SO';
+    strikeoutButton.addEventListener('click', function() {
+        myRoster[batterIndex].numPA++;
+        myRoster[batterIndex].numStrikeouts++;
+        console.log(myRoster[batterIndex].numStrikeouts);
+        localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
+        });
+    tabContent.appendChild(strikeoutButton);
+
+    const hbpButton = document.createElement('button');
+    hbpButton.setAttribute('id','hbpButton');
+    hbpButton.textContent = 'HBP';
+    hbpButton.addEventListener('click', function() {
+        myRoster[batterIndex].numPA++;
+        myRoster[batterIndex].numHBPs++;
+        console.log(myRoster[batterIndex].numHBPs);
+        localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
+        });
+    tabContent.appendChild(hbpButton);
+
+    const sacButton = document.createElement('button');
+    sacButton.setAttribute('id','sacButton');
+    sacButton.textContent = 'SF';
+    sacButton.addEventListener('click', function() {
+        myRoster[batterIndex].numPA++;
+        myRoster[batterIndex].numSacs++;
+        console.log(myRoster[batterIndex].numSacs);
+        localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
+        });
+    tabContent.appendChild(sacButton);
+
+    const rbiButton = document.createElement('button');
+    rbiButton.setAttribute('id','rbiButton');
+    rbiButton.textContent = 'RBI';
+    rbiButton.addEventListener('click', function() {
+        myRoster[batterIndex].numRBIs++;
+        console.log(myRoster[batterIndex].numRBIs);
+        localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
+        });
+    tabContent.appendChild(rbiButton);
+
+
     // Add "new game" button
     const newGameButton = document.createElement('button');
     newGameButton.textContent = 'New game';
