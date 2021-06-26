@@ -18,9 +18,12 @@
         const gameTrackerButton = createNavButton('gameTrackerButton', 'Game Tracker');
         const rosterButton = createNavButton('rosterButton', 'Roster');
 
+        const line = document.createElement('hr');
+
         navBar.appendChild(atBatButton);
         navBar.appendChild(gameTrackerButton);
         navBar.appendChild(rosterButton);
+        navBar.appendChild(line);
         
         return navBar;
     }

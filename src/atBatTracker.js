@@ -400,6 +400,7 @@ function loadAtBatTracker() {
 
     // Add "new game" button
     const newGameButton = document.createElement('button');
+    newGameButton.setAttribute('id', 'newGameButton');
     newGameButton.textContent = 'New game';
     newGameButton.addEventListener('click', function() {
         if (prompt("Are you sure? (type 'yes')") === 'yes') {
@@ -413,6 +414,7 @@ function loadAtBatTracker() {
     });
 
     const newGameDiv = document.createElement('div');
+    newGameDiv.setAttribute('id', 'newGameDiv');
     newGameDiv.appendChild(newGameButton);
     tabContent.appendChild(newGameDiv);
 

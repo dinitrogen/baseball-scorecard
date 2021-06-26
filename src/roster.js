@@ -104,6 +104,10 @@ function createAddPlayerButton() {
 // Create a new player form
 function createNewPlayerForm() {
 
+    if (newPlayerFormDiv.firstChild) {
+        return;
+    }
+
     const newPlayerForm = document.createElement('form');
 
     const newFirstNameField = document.createElement('input');
