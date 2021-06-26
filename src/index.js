@@ -1,6 +1,7 @@
 import { loadNavBar } from './landingPage.js'
 import { loadAtBatTracker } from './atBatTracker.js'
 import { loadRosterPage } from './roster.js'
+import { loadGameTracker } from './gameTracker.js'
 
 function addNavListeners() {
     const atBatButton = document.getElementById('atBatButton');
@@ -8,7 +9,7 @@ function addNavListeners() {
     const rosterButton = document.getElementById('rosterButton');
 
     atBatButton.addEventListener('click', loadAtBatTracker);
-    gameTrackerButton.addEventListener('click', loadAtBatTracker);
+    gameTrackerButton.addEventListener('click', loadGameTracker);
     rosterButton.addEventListener('click', loadRosterPage);
 }
 

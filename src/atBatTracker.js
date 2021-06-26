@@ -191,6 +191,11 @@ function updateBatterDiv(name, jerseyNum) {
     para.textContent = `Up to bat: ${name}, #${jerseyNum}`;
 }
 
+// function updateBatterDiv(index) {
+//     const para = document.getElementById('batterInfo');
+//     para.textContent = `Up to bat: ${index}`;
+// }
+
 
 
 // Page Loader
@@ -201,10 +206,32 @@ function loadAtBatTracker() {
         loadGame();
     } 
     
-    let myRoster = JSON.parse(localStorage.getItem("mySavedRoster"));
-    console.table(myRoster);
-    let batterIndex = 0;
+    let myRoster = [];
+    if (localStorage.getItem("mySavedRoster")) {
+        myRoster = JSON.parse(localStorage.getItem("mySavedRoster"));
+    }
 
+    let batterIndex;
+    if (localStorage.getItem("savedBatterIndex")) {
+        batterIndex = localStorage.getItem("savedBatterIndex");
+    } else { 
+        batterIndex = 0;
+    }
+
+    console.log(batterIndex);
+    console.log(myRoster);
+    
+    localStorage.setItem("savedBatterIndex", batterIndex);
+
+    // create divs
+    const atBatHeader = createHeader('atBatHeader', 'At Bat Tracker');
+    const batterInfoDiv = createBatterInfoDiv();
+    const inningDiv = createCounterDiv('inningDiv');
+    const scoreDiv = createCounterDiv('scoreDiv');
+    const BSODiv = createCounterDiv('BSODiv');
+    const outcomeDiv = createCounterDiv('outcomeDiv');
+
+    
     // Batter change button
     const nextBatterButton = document.createElement('button');
     nextBatterButton.setAttribute('id', 'nextBatterButton');
@@ -213,7 +240,7 @@ function loadAtBatTracker() {
         if (myRoster.length === 0) {
             return;
         }
-        else if (batterIndex === myRoster.length - 1) {
+        else if (batterIndex >= myRoster.length - 1) {
             batterIndex = 0;
         } else {
             batterIndex++;
@@ -221,16 +248,13 @@ function loadAtBatTracker() {
         let name = myRoster[batterIndex].firstName;
         let jerseyNum = myRoster[batterIndex].jerseyNum;
         updateBatterDiv(name, jerseyNum);
+        // updateBatterDiv(batterIndex);
+        localStorage.setItem("savedBatterIndex", batterIndex);
     });
+    batterInfoDiv.appendChild(nextBatterButton);
 
     
-    // create divs
-    const atBatHeader = createHeader('atBatHeader', 'At Bat Tracker');
-    const batterInfoDiv = createBatterInfoDiv();
-    batterInfoDiv.appendChild(nextBatterButton);
-    const inningDiv = createCounterDiv('inningDiv');
-    const scoreDiv = createCounterDiv('scoreDiv');
-    const BSODiv = createCounterDiv('BSODiv');
+    
 
     // create counter buttons
     const inningCounter = createInningCounter();
@@ -260,8 +284,13 @@ function loadAtBatTracker() {
     tabContent.appendChild(scoreDiv);
     tabContent.appendChild(BSODiv);
 
+    if (myRoster.length > 0) {
+        updateBatterDiv(myRoster[batterIndex].firstName, myRoster[batterIndex].jerseyNum);
+    }
+
     // add hit buttons
     const singleButton = document.createElement('button');
+    singleButton.setAttribute('class','hitButton');
     singleButton.setAttribute('id','singleButton');
     singleButton.textContent = '1B';
     singleButton.addEventListener('click', function() {
@@ -270,9 +299,10 @@ function loadAtBatTracker() {
         console.log(myRoster[batterIndex].numSingles);
         localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
         });
-    tabContent.appendChild(singleButton);
+    outcomeDiv.appendChild(singleButton);
 
     const doubleButton = document.createElement('button');
+    doubleButton.setAttribute('class','hitButton');
     doubleButton.setAttribute('id','doubleButton');
     doubleButton.textContent = '2B';
     doubleButton.addEventListener('click', function() {
@@ -281,10 +311,11 @@ function loadAtBatTracker() {
         console.log(myRoster[batterIndex].numDoubles);
         localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
         });
-    tabContent.appendChild(doubleButton);
+    outcomeDiv.appendChild(doubleButton);
 
     const tripleButton = document.createElement('button');
     tripleButton.setAttribute('id','tripleButton');
+    tripleButton.setAttribute('class','hitButton');
     tripleButton.textContent = '3B';
     tripleButton.addEventListener('click', function() {
         myRoster[batterIndex].numPA++;
@@ -292,10 +323,11 @@ function loadAtBatTracker() {
         console.log(myRoster[batterIndex].numTriples);
         localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
         });
-    tabContent.appendChild(tripleButton);
+    outcomeDiv.appendChild(tripleButton);
 
     const homerunButton = document.createElement('button');
     homerunButton.setAttribute('id','homerunButton');
+    homerunButton.setAttribute('class','hitButton');
     homerunButton.textContent = 'HR';
     homerunButton.addEventListener('click', function() {
         myRoster[batterIndex].numPA++;
@@ -303,10 +335,11 @@ function loadAtBatTracker() {
         console.log(myRoster[batterIndex].numHRs);
         localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
         });
-    tabContent.appendChild(homerunButton);
+    outcomeDiv.appendChild(homerunButton);
     
     const walkButton = document.createElement('button');
     walkButton.setAttribute('id','walkButton');
+    walkButton.setAttribute('class','hitButton');
     walkButton.textContent = 'BB';
     walkButton.addEventListener('click', function() {
         myRoster[batterIndex].numPA++;
@@ -314,10 +347,11 @@ function loadAtBatTracker() {
         console.log(myRoster[batterIndex].numWalks);
         localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
         });
-    tabContent.appendChild(walkButton);
+    outcomeDiv.appendChild(walkButton);
 
     const strikeoutButton = document.createElement('button');
     strikeoutButton.setAttribute('id','strikeoutButton');
+    strikeoutButton.setAttribute('class','hitButton');
     strikeoutButton.textContent = 'SO';
     strikeoutButton.addEventListener('click', function() {
         myRoster[batterIndex].numPA++;
@@ -325,10 +359,11 @@ function loadAtBatTracker() {
         console.log(myRoster[batterIndex].numStrikeouts);
         localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
         });
-    tabContent.appendChild(strikeoutButton);
+    outcomeDiv.appendChild(strikeoutButton);
 
     const hbpButton = document.createElement('button');
     hbpButton.setAttribute('id','hbpButton');
+    hbpButton.setAttribute('class','hitButton');
     hbpButton.textContent = 'HBP';
     hbpButton.addEventListener('click', function() {
         myRoster[batterIndex].numPA++;
@@ -336,10 +371,11 @@ function loadAtBatTracker() {
         console.log(myRoster[batterIndex].numHBPs);
         localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
         });
-    tabContent.appendChild(hbpButton);
+    outcomeDiv.appendChild(hbpButton);
 
     const sacButton = document.createElement('button');
     sacButton.setAttribute('id','sacButton');
+    sacButton.setAttribute('class','hitButton');
     sacButton.textContent = 'SF';
     sacButton.addEventListener('click', function() {
         myRoster[batterIndex].numPA++;
@@ -347,18 +383,20 @@ function loadAtBatTracker() {
         console.log(myRoster[batterIndex].numSacs);
         localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
         });
-    tabContent.appendChild(sacButton);
+    outcomeDiv.appendChild(sacButton);
 
     const rbiButton = document.createElement('button');
     rbiButton.setAttribute('id','rbiButton');
+    rbiButton.setAttribute('class','hitButton');
     rbiButton.textContent = 'RBI';
     rbiButton.addEventListener('click', function() {
         myRoster[batterIndex].numRBIs++;
         console.log(myRoster[batterIndex].numRBIs);
         localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
         });
-    tabContent.appendChild(rbiButton);
+    outcomeDiv.appendChild(rbiButton);
 
+    tabContent.appendChild(outcomeDiv);
 
     // Add "new game" button
     const newGameButton = document.createElement('button');
@@ -366,6 +404,7 @@ function loadAtBatTracker() {
     newGameButton.addEventListener('click', function() {
         if (prompt("Are you sure? (type 'yes')") === 'yes') {
             localStorage.removeItem("mySavedGame");
+            localStorage.removeItem("savedBatterIndex");
             resetGameScore();
             loadAtBatTracker();
         } else {

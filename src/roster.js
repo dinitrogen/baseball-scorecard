@@ -148,13 +148,6 @@ function addPlayer() {
     myRoster.push(newPlayer);
     saveRoster();
     console.table(myRoster);
-    
-    // playerStats.textContent = player1.getFullName();
-    // console.log(player1.numAtBats);
-    // player1.atBat();
-    // console.log(player1.numAtBats);
-    // player1.hitSingle();
-    // console.log(player1.numSingles);
 }
 
 function createRosterTable() {
@@ -222,6 +215,10 @@ function createRosterTable() {
     headerRow.appendChild(obpHeader);
 
     // other headers
+
+    const addRunHeader = document.createElement('th');
+    addRunHeader.textContent = 'Add run';
+    headerRow.appendChild(addRunHeader);
 
     const delHeader = document.createElement('th');
     delHeader.textContent = 'Remove';
@@ -308,6 +305,17 @@ function displayRosterTable() {
         obpCell.textContent = `${player.obp}`;
         playerRow.appendChild(obpCell);
         // other stats
+
+        const addRunCell = document.createElement('td');
+        const addRunButton = document.createElement('button');
+        addRunButton.textContent = 'Add run';
+        addRunButton.onclick = function() {
+            player.numRuns++;
+            runsCell.textContent = `${player.numRuns}`;
+            saveRoster();
+        }
+        addRunCell.appendChild(addRunButton);
+        playerRow.appendChild(addRunCell);
         
         const delCell = document.createElement('td');
         const delButton = document.createElement('button');
@@ -347,6 +355,7 @@ function loadRosterPage() {
     clearRosterButton.addEventListener('click', function() {
         if (prompt("Are you sure? (type 'yes')") === 'yes') {
             localStorage.removeItem("mySavedRoster");
+            localStorage.removeItem("savedBatterIndex");
             myRoster = [];
             loadRosterPage();
         } else {

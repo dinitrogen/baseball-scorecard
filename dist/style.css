@@ -26,12 +26,33 @@ h1 {
 
 .counterButton {
     flex: auto;
-    height: 200px;
+    height: 150px;
     margin: 10px;
     font-size: 8vw;
     color: black;
     border-radius: 15px;
+}
 
+.counterButton:active {
+    background-color: rgb(126, 126, 126);
+}
+
+#outcomeDiv {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.hitButton {
+    flex: auto;
+    height: 70px;
+    margin: 5px;
+    font-size: medium;
+    color:black;
+    border-radius: 5px;   
+}
+
+.hitButton:active {
+    background-color: rgb(126, 126, 126);
 }
 
 table, th, td {
