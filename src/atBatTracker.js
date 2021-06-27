@@ -191,11 +191,6 @@ function updateBatterDiv(name, jerseyNum) {
     para.textContent = `Up to bat: ${name}, #${jerseyNum}`;
 }
 
-// function updateBatterDiv(index) {
-//     const para = document.getElementById('batterInfo');
-//     para.textContent = `Up to bat: ${index}`;
-// }
-
 
 
 // Page Loader
@@ -237,6 +232,11 @@ function loadAtBatTracker() {
     nextBatterButton.setAttribute('id', 'nextBatterButton');
     nextBatterButton.textContent = 'Next batter';
     nextBatterButton.addEventListener('click', function() {
+        gameScore.numBalls = 0;
+        gameScore.numStrikes = 0;
+        ballCounter.textContent = `B: ${gameScore.numBalls}`;
+        strikeCounter.textContent = `S: ${gameScore.numStrikes}`;
+        saveGame();
         if (myRoster.length === 0) {
             return;
         }

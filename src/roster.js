@@ -224,6 +224,10 @@ function createRosterTable() {
     addRunHeader.textContent = 'Add run';
     headerRow.appendChild(addRunHeader);
 
+    const moveHeader = document.createElement('th');
+    moveHeader.textContent = 'Order';
+    headerRow.appendChild(moveHeader);
+
     const delHeader = document.createElement('th');
     delHeader.textContent = 'Remove';
     headerRow.appendChild(delHeader);
@@ -320,16 +324,38 @@ function displayRosterTable() {
         }
         addRunCell.appendChild(addRunButton);
         playerRow.appendChild(addRunCell);
+
+        const moveCell = document.createElement('td');
+        const moveButton = document.createElement('button');
+        moveButton.textContent = 'move down';
+        moveButton.onclick = function() {
+            let index = myRoster.indexOf(player);
+            if (myRoster.length === 1) {
+                return;
+            } else if (index === myRoster.length - 1) {
+                [myRoster[0], myRoster[index]] = [myRoster[index], myRoster[0]];
+            } else {
+                [myRoster[index], myRoster[index + 1]] = [myRoster[index + 1], myRoster[index]];
+            }       
+            displayRosterTable();
+            saveRoster();
+            console.table(myRoster); //remove later
+        }
+        moveCell.appendChild(moveButton);
+        playerRow.appendChild(moveCell);
         
         const delCell = document.createElement('td');
         const delButton = document.createElement('button');
         delButton.textContent = 'remove player';
         delButton.onclick = function() {
-            tbody.removeChild(playerRow);
-            myRoster.splice(myRoster.indexOf(player), 1);
-            displayRosterTable();
-            saveRoster();
-            console.table(myRoster); //remove later
+            if (prompt("Are you sure? (type 'yes')") === 'yes') {
+                tbody.removeChild(playerRow);
+                myRoster.splice(myRoster.indexOf(player), 1);
+                displayRosterTable();
+                saveRoster();
+            } else {
+                return;
+            }
         }
         delCell.appendChild(delButton);
         playerRow.appendChild(delCell);
