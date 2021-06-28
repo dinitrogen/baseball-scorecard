@@ -97,3 +97,8 @@ table, th, td {
     text-align: center;
     margin: 10px;
 }
+
+input {
+    display: block;
+    margin-bottom: 10px;
+}
