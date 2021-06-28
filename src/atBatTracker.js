@@ -21,7 +21,7 @@ function resetGameScore() {
     gameScore.numOuts = 0;
 }
 
-
+// Create DOM elements for at Bat Tracker page
 function createCounterButton(id, text) {
     const btn = document.createElement('button');
     btn.setAttribute('class','counterButton');
@@ -56,7 +56,6 @@ function createBatterInfoDiv() {
     return div;
 }
 
-
 function createInningCounter() {
     const inningCounter = createCounterButton('inningCounter', `${gameScore.inningHalf} ${gameScore.numInning}`);
     inningCounter.addEventListener('click', advanceInning);
@@ -70,13 +69,11 @@ function createRunCounterAway() {
     return runCounterAway;
 }    
 
-
 function createRunCounterHome() {
     const runCounterHome = createCounterButton('runCounterHome', `Home: ${gameScore.homeRuns}`);
     runCounterHome.addEventListener('click', addRunHome);
     return runCounterHome;
 }
-
 
 function createBallCounter() {
     const ballCounter = createCounterButton('ballCounter', `B: ${gameScore.numBalls}`);
@@ -84,13 +81,11 @@ function createBallCounter() {
     return ballCounter;
 }
 
-
 function createStrikeCounter() {
     const strikeCounter = createCounterButton('strikeCounter', `S: ${gameScore.numStrikes}`);
     strikeCounter.addEventListener('click', addStrike);
     return strikeCounter;
 }
-
 
 function createOutCounter() {
     const outCounter = createCounterButton('outCounter', `O: ${gameScore.numOuts}`);
@@ -100,7 +95,6 @@ function createOutCounter() {
 
 
 // Button logic
-
 function addBall() {
     if (gameScore.numBalls === 3) {
         gameScore.numBalls = 0;
@@ -202,8 +196,8 @@ function loadAtBatTracker() {
     } 
     
     let myRoster = [];
-    if (localStorage.getItem("mySavedRoster")) {
-        myRoster = JSON.parse(localStorage.getItem("mySavedRoster"));
+    if (localStorage.getItem("tempRoster")) {
+        myRoster = JSON.parse(localStorage.getItem("tempRoster"));
     }
 
     let batterIndex;
@@ -213,8 +207,8 @@ function loadAtBatTracker() {
         batterIndex = 0;
     }
 
-    console.log(batterIndex);
-    console.log(myRoster);
+    //console.log(batterIndex);
+    //console.log(myRoster);
     
     localStorage.setItem("savedBatterIndex", batterIndex);
 
@@ -248,13 +242,9 @@ function loadAtBatTracker() {
         let name = myRoster[batterIndex].firstName;
         let jerseyNum = myRoster[batterIndex].jerseyNum;
         updateBatterDiv(name, jerseyNum);
-        // updateBatterDiv(batterIndex);
         localStorage.setItem("savedBatterIndex", batterIndex);
     });
     batterInfoDiv.appendChild(nextBatterButton);
-
-    
-    
 
     // create counter buttons
     const inningCounter = createInningCounter();
@@ -297,7 +287,7 @@ function loadAtBatTracker() {
         myRoster[batterIndex].numPA++;
         myRoster[batterIndex].numSingles++;
         console.log(myRoster[batterIndex].numSingles);
-        localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
+        localStorage.setItem("tempRoster", JSON.stringify(myRoster));
         });
     outcomeDiv.appendChild(singleButton);
 
@@ -309,7 +299,7 @@ function loadAtBatTracker() {
         myRoster[batterIndex].numPA++;
         myRoster[batterIndex].numDoubles++;
         console.log(myRoster[batterIndex].numDoubles);
-        localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
+        localStorage.setItem("tempRoster", JSON.stringify(myRoster));
         });
     outcomeDiv.appendChild(doubleButton);
 
@@ -321,7 +311,7 @@ function loadAtBatTracker() {
         myRoster[batterIndex].numPA++;
         myRoster[batterIndex].numTriples++;
         console.log(myRoster[batterIndex].numTriples);
-        localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
+        localStorage.setItem("tempRoster", JSON.stringify(myRoster));
         });
     outcomeDiv.appendChild(tripleButton);
 
@@ -333,7 +323,7 @@ function loadAtBatTracker() {
         myRoster[batterIndex].numPA++;
         myRoster[batterIndex].numHRs++;
         console.log(myRoster[batterIndex].numHRs);
-        localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
+        localStorage.setItem("tempRoster", JSON.stringify(myRoster));
         });
     outcomeDiv.appendChild(homerunButton);
     
@@ -345,7 +335,7 @@ function loadAtBatTracker() {
         myRoster[batterIndex].numPA++;
         myRoster[batterIndex].numWalks++;
         console.log(myRoster[batterIndex].numWalks);
-        localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
+        localStorage.setItem("tempRoster", JSON.stringify(myRoster));
         });
     outcomeDiv.appendChild(walkButton);
 
@@ -357,7 +347,7 @@ function loadAtBatTracker() {
         myRoster[batterIndex].numPA++;
         myRoster[batterIndex].numStrikeouts++;
         console.log(myRoster[batterIndex].numStrikeouts);
-        localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
+        localStorage.setItem("tempRoster", JSON.stringify(myRoster));
         });
     outcomeDiv.appendChild(strikeoutButton);
 
@@ -369,7 +359,7 @@ function loadAtBatTracker() {
         myRoster[batterIndex].numPA++;
         myRoster[batterIndex].numHBPs++;
         console.log(myRoster[batterIndex].numHBPs);
-        localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
+        localStorage.setItem("tempRoster", JSON.stringify(myRoster));
         });
     outcomeDiv.appendChild(hbpButton);
 
@@ -381,7 +371,7 @@ function loadAtBatTracker() {
         myRoster[batterIndex].numPA++;
         myRoster[batterIndex].numSacs++;
         console.log(myRoster[batterIndex].numSacs);
-        localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
+        localStorage.setItem("tempRoster", JSON.stringify(myRoster));
         });
     outcomeDiv.appendChild(sacButton);
 
@@ -392,7 +382,7 @@ function loadAtBatTracker() {
     rbiButton.addEventListener('click', function() {
         myRoster[batterIndex].numRBIs++;
         console.log(myRoster[batterIndex].numRBIs);
-        localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
+        localStorage.setItem("tempRoster", JSON.stringify(myRoster));
         });
     outcomeDiv.appendChild(rbiButton);
 
@@ -427,9 +417,6 @@ function loadGame() {
     gameScore = JSON.parse(localStorage.getItem("mySavedGame"));
 }
 
-// function saveRoster() {
-//     localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
-// }
 
 
 export { loadAtBatTracker }

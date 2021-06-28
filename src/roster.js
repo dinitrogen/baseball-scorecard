@@ -256,7 +256,7 @@ function addPlayer() {
     let newJerseyNum = document.getElementById('newJerseyNum').value;
     let newPlayer = createPlayer(newFirstName, newLastName, newJerseyNum);
     myRoster.push(newPlayer);
-    saveRoster();
+    saveTempRoster();
 }
 
 
@@ -342,7 +342,7 @@ function displayRosterTable() {
         addRunButton.onclick = function() {
             player.numRuns++;
             runsCell.textContent = `${player.numRuns}`;
-            saveRoster();
+            saveTempRoster();
         }
         addRunCell.appendChild(addRunButton);
         playerRow.appendChild(addRunCell);
@@ -360,7 +360,7 @@ function displayRosterTable() {
                 [myRoster[index], myRoster[index + 1]] = [myRoster[index + 1], myRoster[index]];
             }       
             displayRosterTable();
-            saveRoster();
+            saveTempRoster();
         }
         moveCell.appendChild(moveButton);
         playerRow.appendChild(moveCell);
@@ -382,7 +382,7 @@ function displayRosterTable() {
                 tbody.removeChild(playerRow);
                 myRoster.splice(myRoster.indexOf(player), 1);
                 displayRosterTable();
-                saveRoster();
+                saveTempRoster();
             } else {
                 return;
             }
@@ -584,7 +584,7 @@ function updatePlayer(player) {
     player.avg = calculateAVG(player);
     player.obp = calculateOBP(player);
 
-    saveRoster();
+    saveTempRoster();
 }
 
 function createReturnButton() {
@@ -624,13 +624,36 @@ function loadRosterPage() {
     tabContent.appendChild(newPlayerFormDiv);
     tabContent.appendChild(rosterTable);
 
+    // add save roster button
+    const saveRosterButton = document.createElement('button');
+    saveRosterButton.setAttribute('id', 'saveRosterButton')
+    saveRosterButton.textContent = 'Save roster';
+    saveRosterButton.addEventListener('click', function() {
+        let saveName = prompt("Name? ");
+        saveRoster(saveName);
+    });
+    tabContent.appendChild(saveRosterButton);
+
+    // add load roster button
+    const loadRosterButton = document.createElement('button');
+    loadRosterButton.setAttribute('id', 'loadRosterButton')
+    loadRosterButton.textContent = 'Load roster';
+    loadRosterButton.addEventListener('click', function() {
+        let saveName = prompt("Name? ");
+        loadRoster(saveName);
+        saveTempRoster();
+        displayRosterTable();
+    });
+    tabContent.appendChild(loadRosterButton);
+
     // add clear roster button
     const clearRosterButton = document.createElement('button');
-    clearRosterButton.textContent = 'Clear roster';
+    clearRosterButton.setAttribute('id', 'clearRosterButton')
+    clearRosterButton.textContent = 'Clear current roster';
     clearRosterButton.addEventListener('click', function() {
         if (prompt("Are you sure? (type 'yes')") === 'yes') {
-            localStorage.removeItem("mySavedRoster");
-            localStorage.removeItem("savedBatterIndex");
+            localStorage.removeItem('tempRoster');
+            localStorage.removeItem('savedBatterIndex');
             myRoster = [];
             loadRosterPage();
         } else {
@@ -640,22 +663,53 @@ function loadRosterPage() {
     tabContent.appendChild(clearRosterButton);
     
     // Check for saved roster
-    if (localStorage.getItem('mySavedRoster')) {
+    if (localStorage.getItem('tempRoster')) {
         //alert("Found saved roster.");
-        loadRoster();
+        loadRoster('tempRoster');
         displayRosterTable();
-    } 
+    }
 }
 
 // local storage functions for saving and loading rosters
-function loadRoster() {
-    myRoster = JSON.parse(localStorage.getItem("mySavedRoster"));
+// function loadRoster() {
+//     myRoster = JSON.parse(localStorage.getItem("mySavedRoster"));
+//     listSavedStuff();
+// }
+
+function loadRoster(saveName) {
+    if (localStorage.getItem(saveName)) {
+        myRoster = JSON.parse(localStorage.getItem(saveName));
+    } else {
+        alert('Roster not found.');
+    }
+    // listSavedStuff();
 }
 
-function saveRoster() {
-    localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
+// function saveRoster() {
+//     localStorage.setItem("mySavedRoster", JSON.stringify(myRoster));
+// }
+
+function saveTempRoster() {
+    localStorage.setItem('tempRoster', JSON.stringify(myRoster));
 }
 
+function saveRoster(saveName) {
+    if (localStorage.getItem(saveName) === null) {
+        localStorage.setItem(saveName, JSON.stringify(myRoster));
+    } else {
+        if (prompt('Already exists. Overwrite? (type "yes")') === 'yes') {
+            localStorage.setItem(saveName, JSON.stringify(myRoster));
+        }
+        else {
+            return;
+        }
+    }
+}
+
+
+// function listSavedStuff() {
+//     console.log(Object.keys(localStorage));
+// }
 
 export { loadRosterPage }
 
