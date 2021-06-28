@@ -102,3 +102,42 @@ input {
     display: block;
     margin-bottom: 10px;
 }
+
+#addPlayerButton {
+    margin: 5px;
+    font-size:large;
+}
+
+#addPlayerButton:active {
+    background-color: rgb(126, 126, 126);
+
+}
+
+#saveRosterButton {
+    margin: 5px;
+    font-size: large;
+}
+
+#saveRosterButton:active {
+    background-color: rgb(126, 126, 126);
+}
+
+#loadRosterButton {
+    margin: 5px;
+    font-size: large;
+
+}
+
+#loadRosterButton:active {
+    background-color: rgb(126, 126, 126);
+}
+
+#clearRosterButton {
+    margin: 5px;
+    font-size: large;
+
+}
+
+#clearRosterButton:active {
+    background-color: rgb(126, 126, 126);
+}
