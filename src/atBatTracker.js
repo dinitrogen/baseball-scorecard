@@ -7,11 +7,13 @@ let gameScore = {
     homeRuns: 0,
     numBalls: 0,
     numStrikes: 0,
-    numOuts: 0
+    numOuts: 0,
+    awayTeamName: 'Away',
+    homeTeamName: 'Home',
 }
 
 
-function resetGameScore() {
+function resetGameScore(awayTeamName, homeTeamName) {
     gameScore.inningHalf = 'Top';
     gameScore.numInning = 1;
     gameScore.awayRuns = 0;
@@ -19,6 +21,8 @@ function resetGameScore() {
     gameScore.numBalls = 0;
     gameScore.numStrikes = 0;
     gameScore.numOuts = 0;
+    gameScore.awayTeamName = awayTeamName;
+    gameScore.homeTeamName = homeTeamName;
 }
 
 // Create DOM elements for at Bat Tracker page
@@ -64,13 +68,13 @@ function createInningCounter() {
 }
 
 function createRunCounterAway() {
-    const runCounterAway = createCounterButton('runCounterAway', `Away: ${gameScore.awayRuns}`);
+    const runCounterAway = createCounterButton('runCounterAway', `${gameScore.awayTeamName} (Away): ${gameScore.awayRuns}`);
     runCounterAway.addEventListener('click', addRunAway);
     return runCounterAway;
 }    
 
 function createRunCounterHome() {
-    const runCounterHome = createCounterButton('runCounterHome', `Home: ${gameScore.homeRuns}`);
+    const runCounterHome = createCounterButton('runCounterHome', `${gameScore.homeTeamName} (Home): ${gameScore.homeRuns}`);
     runCounterHome.addEventListener('click', addRunHome);
     return runCounterHome;
 }
@@ -149,7 +153,7 @@ function addRunAway() {
     else {
         gameScore.awayRuns++;
     }
-    runCounterAway.textContent = `Away: ${gameScore.awayRuns}`;
+    runCounterAway.textContent = `${gameScore.awayTeamName} (Away): ${gameScore.awayRuns}`;
     saveGame();
 }
 
@@ -160,7 +164,7 @@ function addRunHome() {
     else {
         gameScore.homeRuns++;
     }
-    runCounterHome.textContent = `Home: ${gameScore.homeRuns}`;
+    runCounterHome.textContent = `${gameScore.homeTeamName} (Home): ${gameScore.homeRuns}`;
     saveGame();
 }
 
@@ -396,7 +400,9 @@ function loadAtBatTracker() {
         if (prompt("Are you sure? (type 'yes')") === 'yes') {
             localStorage.removeItem("mySavedGame");
             localStorage.removeItem("savedBatterIndex");
-            resetGameScore();
+            let awayTeamName = prompt('Enter away team');
+            let homeTeamName = prompt('Enter home team');
+            resetGameScore(awayTeamName, homeTeamName);
             loadAtBatTracker();
         } else {
             return;

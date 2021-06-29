@@ -348,9 +348,9 @@ function displayRosterTable() {
         playerRow.appendChild(addRunCell);
 
         const moveCell = document.createElement('td');
-        const moveButton = document.createElement('button');
-        moveButton.textContent = 'Move down';
-        moveButton.onclick = function() {
+        const moveDownButton = document.createElement('button');
+        moveDownButton.textContent = 'Move down';
+        moveDownButton.onclick = function() {
             let index = myRoster.indexOf(player);
             if (myRoster.length === 1) {
                 return;
@@ -362,7 +362,24 @@ function displayRosterTable() {
             displayRosterTable();
             saveTempRoster();
         }
-        moveCell.appendChild(moveButton);
+
+        const moveUpButton = document.createElement('button');
+        moveUpButton.textContent = 'Move up';
+        moveUpButton.onclick = function() {
+            let index = myRoster.indexOf(player);
+            if (myRoster.length === 1) {
+                return;
+            } else if (index === 0) {
+                [myRoster[myRoster.length - 1], myRoster[index]] = [myRoster[index], myRoster[myRoster.length - 1]];
+            } else {
+                [myRoster[index], myRoster[index - 1]] = [myRoster[index - 1], myRoster[index]];
+            }       
+            displayRosterTable();
+            saveTempRoster();
+        }
+
+        moveCell.appendChild(moveUpButton);
+        moveCell.appendChild(moveDownButton);
         playerRow.appendChild(moveCell);
         
         const editCell = document.createElement('td');
